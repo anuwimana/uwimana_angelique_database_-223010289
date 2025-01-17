@@ -1,0 +1,706 @@
+mysql> CREATE DATABASE BATIMA;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE BATIMA;
+Database changed
+QUESTION 1
+
+mysql> create table client_master(clientno int(9) not null,name varchar(9) not null,address varchar(9),city varchar(9),state varchar(12) not null,bal_due decimal(11,3) not null);
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> insert client_master values(123,'murungi','12gh','muhanga','newyork',5000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert client_master values(124,'ange','13gh','huye','america',5500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert client_master values(125,'peline','14gh','huye','los angels',5100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert client_master values(125,'peline','14gh','newyork','ny',5100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert client_master values(126,'muhire','15gh','chicago','ch',8000.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from table,
+    -> select*from table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table,
+select*from table' at line 1
+mysql> select*from client_master;
++----------+---------+---------+---------+------------+----------+
+| clientno | name    | address | city    | state      | bal_due  |
++----------+---------+---------+---------+------------+----------+
+|      123 | murungi | 12gh    | muhanga | newyork    | 5000.000 |
+|      124 | ange    | 13gh    | huye    | america    | 5500.000 |
+|      125 | peline  | 14gh    | huye    | los angels | 5100.000 |
+|      125 | peline  | 14gh    | newyork | ny         | 5100.000 |
+|      126 | muhire  | 15gh    | chicago | ch         | 8000.000 |
++----------+---------+---------+---------+------------+----------+
+5 rows in set (0.00 sec)
+ QUESTION 2
+
+mysql> select*from client_master where bal_due>5000;
++----------+--------+---------+---------+------------+----------+
+| clientno | name   | address | city    | state      | bal_due  |
++----------+--------+---------+---------+------------+----------+
+|      124 | ange   | 13gh    | huye    | america    | 5500.000 |
+|      125 | peline | 14gh    | huye    | los angels | 5100.000 |
+|      125 | peline | 14gh    | newyork | ny         | 5100.000 |
+|      126 | muhire | 15gh    | chicago | ch         | 8000.000 |
++----------+--------+---------+---------+------------+----------+
+4 rows in set (0.00 sec)
+QUESTION 3
+
+mysql> update client_master set bal_due=5000 where clientno=123;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select*from client_master;
++----------+---------+---------+---------+------------+----------+
+| clientno | name    | address | city    | state      | bal_due  |
++----------+---------+---------+---------+------------+----------+
+|      123 | murungi | 12gh    | muhanga | newyork    | 5000.000 |
+|      124 | ange    | 13gh    | huye    | america    | 5500.000 |
+|      125 | peline  | 14gh    | huye    | los angels | 5100.000 |
+|      125 | peline  | 14gh    | newyork | ny         | 5100.000 |
+|      126 | muhire  | 15gh    | chicago | ch         | 8000.000 |
++----------+---------+---------+---------+------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update client_master set bal_due=5100 where clientno=123;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from client_master;
++----------+---------+---------+---------+------------+----------+
+| clientno | name    | address | city    | state      | bal_due  |
++----------+---------+---------+---------+------------+----------+
+|      123 | murungi | 12gh    | muhanga | newyork    | 5100.000 |
+|      124 | ange    | 13gh    | huye    | america    | 5500.000 |
+|      125 | peline  | 14gh    | huye    | los angels | 5100.000 |
+|      125 | peline  | 14gh    | newyork | ny         | 5100.000 |
+|      126 | muhire  | 15gh    | chicago | ch         | 8000.000 |
++----------+---------+---------+---------+------------+----------+
+5 rows in set (0.00 sec)
+
+QUESTION 4
+mysql> alter table client_master rename to client12;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select*from client_master;
+ERROR 1146 (42S02): Table 'batima.client_master' doesn't exist
+mysql> select*from client12;
++----------+---------+---------+---------+------------+----------+
+| clientno | name    | address | city    | state      | bal_due  |
++----------+---------+---------+---------+------------+----------+
+|      123 | murungi | 12gh    | muhanga | newyork    | 5100.000 |
+|      124 | ange    | 13gh    | huye    | america    | 5500.000 |
+|      125 | peline  | 14gh    | huye    | los angels | 5100.000 |
+|      125 | peline  | 14gh    | newyork | ny         | 5100.000 |
+|      126 | muhire  | 15gh    | chicago | ch         | 8000.000 |
++----------+---------+---------+---------+------------+----------+
+5 rows in set (0.00 sec)
+  
+
+QUESTION 6
+
+mysql> create table department(id int(9) not null primary,name varchar(9) not null,age int(9) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',name varchar(9) not null,age int(9) not null)' at line 1
+mysql> create table department(id int(9) not null primary key,name varchar(9) not null,age int(9) not null);
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> create table employees(id_emp int(9) not null primary key,first_name varchar(9) not null ,last_name varchar(8) not null,id int(9),foreign key(id) references department(id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql>
+mysql> mysql> create table employees(id_emp int(9) not null primary key,first_name varchar(9) not null ,last_name varchar(8) not null,id int(9),foreign key(id) references department(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> create table employees(id_emp int(9) not null primary key,first_name varc' at line 1
+mysql> mysql> create table employees(id_emp int(9) not null primary key,first_name varchar(9) not null,last_name varchar(8) not null,id int(9),foreign key(id) references department(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> create table employees(id_emp int(9) not null primary key,first_name varc' at line 1
+mysql> create table employees(emp_id int(9) not null primary key,emp_name varchar(9) not null,telphone varchar(12) not null,id int(9),foreign key(id) references department(id));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> select*from department;
+Empty set (0.00 sec)
+
+mysql> insert department values(22,'ange',23);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert department values(23,'ange',22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert department values(24,'ange',25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert department values(25,'peace',26);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert department values(26,'mugisha',27);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from department;
++----+---------+-----+
+| id | name    | age |
++----+---------+-----+
+| 22 | ange    |  23 |
+| 23 | ange    |  22 |
+| 24 | ange    |  25 |
+| 25 | peace   |  26 |
+| 26 | mugisha |  27 |
++----+---------+-----+
+5 rows in set (0.00 sec)
+
+mysql> update department set name='mucyo'where id=22;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update department set name='ishimwe'where id=23;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from department;
++----+---------+-----+
+| id | name    | age |
++----+---------+-----+
+| 22 | mucyo   |  23 |
+| 23 | ishimwe |  22 |
+| 24 | ange    |  25 |
+| 25 | peace   |  26 |
+| 26 | mugisha |  27 |
++----+---------+-----+
+5 rows in set (0.00 sec)
+
+mysql> insert emmployees values(123,'eva',0788765433,22);
+ERROR 1146 (42S02): Table 'batima.emmployees' doesn't exist
+mysql> insert employees values(123,'eva',0788765433,22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert employees values(124,'joyeus',0788765445,23);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert employees values(125,'emma',0788756445,24);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert employees values(126,'mahoro',0798732445,27);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert employees values(127,'david',0799732445,26);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select* from employees;
++--------+----------+-----------+------+
+| emp_id | emp_name | telphone  | id   |
++--------+----------+-----------+------+
+|    123 | eva      | 788765433 |   22 |
+|    124 | joyeus   | 788765445 |   23 |
+|    125 | emma     | 788756445 |   24 |
+|    126 | mahoro   | 798732445 |   27 |
+|    127 | david    | 799732445 |   26 |
++--------+----------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_name,name from department left join employees on department.id =employees.id;
++----------+---------+
+| emp_name | name    |
++----------+---------+
+| eva      | mucyo   |
+| joyeus   | ishimwe |
+| emma     | ange    |
+| NULL     | peace   |
+| david    | mugisha |
++----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_name,name from employees right join department on department.id =employees.id;
++----------+---------+
+| emp_name | name    |
++----------+---------+
+| eva      | mucyo   |
+| joyeus   | ishimwe |
+| emma     | ange    |
+| NULL     | peace   |
+| david    | mugisha |
++----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> alter table employees add salary varchar(15);
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> update employees set salary=1234567rwf where id=123;
+ERROR 1054 (42S22): Unknown column '1234567rwf' in 'field list'
+mysql> update employees set salary='1234567rwf' where id=123;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='1235667rwf' where id=124;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='1235643rwf' where id=125;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='123538790rwf' where id=126;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='123438790rwf' where id=127;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select*from employees;
++--------+----------+-----------+------+--------+
+| emp_id | emp_name | telphone  | id   | salary |
++--------+----------+-----------+------+--------+
+|    123 | eva      | 788765433 |   22 | NULL   |
+|    124 | joyeus   | 788765445 |   23 | NULL   |
+|    125 | emma     | 788756445 |   24 | NULL   |
+|    126 | mahoro   | 798732445 |   27 | NULL   |
+|    127 | david    | 799732445 |   26 | NULL   |
++--------+----------+-----------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update employees set salary='123438790rwf' where id=127;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='123538790rwf' where id=126;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='1235643rwf' where id=125;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='1235667rwf' where id=124;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary='1234567rwf' where id=123;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set salary=1234567rwf where id=123;
+ERROR 1054 (42S22): Unknown column '1234567rwf' in 'field list'
+mysql> update employees set salary='1234567rwf' where id=123;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select* from employees;
++--------+----------+-----------+------+--------+
+| emp_id | emp_name | telphone  | id   | salary |
++--------+----------+-----------+------+--------+
+|    123 | eva      | 788765433 |   22 | NULL   |
+|    124 | joyeus   | 788765445 |   23 | NULL   |
+|    125 | emma     | 788756445 |   24 | NULL   |
+|    126 | mahoro   | 798732445 |   27 | NULL   |
+|    127 | david    | 799732445 |   26 | NULL   |
++--------+----------+-----------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update employees set salary=1234567 where id=123;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select*from employees;
++--------+----------+-----------+------+--------+
+| emp_id | emp_name | telphone  | id   | salary |
++--------+----------+-----------+------+--------+
+|    123 | eva      | 788765433 |   22 | NULL   |
+|    124 | joyeus   | 788765445 |   23 | NULL   |
+|    125 | emma     | 788756445 |   24 | NULL   |
+|    126 | mahoro   | 798732445 |   27 | NULL   |
+|    127 | david    | 799732445 |   26 | NULL   |
++--------+----------+-----------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update employees set salary=123456 where emp_id=123;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++--------+----------+-----------+------+--------+
+| emp_id | emp_name | telphone  | id   | salary |
++--------+----------+-----------+------+--------+
+|    123 | eva      | 788765433 |   22 | 123456 |
+|    124 | joyeus   | 788765445 |   23 | NULL   |
+|    125 | emma     | 788756445 |   24 | NULL   |
+|    126 | mahoro   | 798732445 |   27 | NULL   |
+|    127 | david    | 799732445 |   26 | NULL   |
++--------+----------+-----------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update employees set salary='1235667rwf' where emp_id=124;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set salary='1235643rwf' where emp_id=125;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set salary='123538790rwf' where emp_id=126;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set salary='123438790rwf' where emp_id=127;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++--------+----------+-----------+------+--------------+
+| emp_id | emp_name | telphone  | id   | salary       |
++--------+----------+-----------+------+--------------+
+|    123 | eva      | 788765433 |   22 | 123456       |
+|    124 | joyeus   | 788765445 |   23 | 1235667rwf   |
+|    125 | emma     | 788756445 |   24 | 1235643rwf   |
+|    126 | mahoro   | 798732445 |   27 | 123538790rwf |
+|    127 | david    | 799732445 |   26 | 123438790rwf |
++--------+----------+-----------+------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(salary) from employees;
++-------------+
+| sum(salary) |
++-------------+
+|   249572346 |
++-------------+
+1 row in set, 4 warnings (0.00 sec)
+
+mysql> select avg(salary) from employees;
++-------------+
+| avg(salary) |
++-------------+
+|  49914469.2 |
++-------------
+
+QUESTION 7
+
+mysql> create table student(student_id varchar(5) not null,full_name varchar(25),gender varchar(6),age int(2),department varchar(30));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+mysql> create view all_student as select*from student;
+Query OK, 0 rows affected (0.02 sec)
+mysql> create view all_girl as select*from student where gender='femele';
+Query OK, 0 rows affected (0.02 sec)
+mysql> create view all_boy as select *from student where gender='male';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert student values(22,'ange','femele',22,'bit');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert student values(23,'fils','male',22,'accounting');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert student values(24,'david','male',24,'finance');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert student values(25,'peace','female',25,'finance');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert student values(26,'muhoza','male',19,'bit');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select* from student;
++------------+-----------+--------+------+------------+
+| student_id | full_name | gender | age  | department |
++------------+-----------+--------+------+------------+
+| 22         | ange      | femele |   22 | bit        |
+| 23         | fils      | male   |   22 | accounting |
+| 24         | david     | male   |   24 | finance    |
+| 25         | peace     | female |   25 | finance    |
+| 26         | muhoza    | male   |   19 | bit        |
++------------+-----------+--------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from boy;
+ERROR 1146 (42S02): Table 'batima.boy' doesn't exist
+mysql> select*from all_boy;
++------------+-----------+--------+------+------------+
+| student_id | full_name | gender | age  | department |
++------------+-----------+--------+------+------------+
+| 23         | fils      | male   |   22 | accounting |
+| 24         | david     | male   |   24 | finance    |
+| 26         | muhoza    | male   |   19 | bit        |
++------------+-----------+--------+------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select*from all_girl;
++------------+-----------+--------+------+------------+
+| student_id | full_name | gender | age  | department |
++------------+-----------+--------+------+------------+
+| 22         | ange      | femele |   22 | bit        |
++------------+-----------+--------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> select*from all_girls;
+ERROR 1146 (42S02): Table 'batima.all_girls' doesn't exist
+mysql> select*from all_girls;
+ERROR 1146 (42S02): Table 'batima.all_girls' doesn't exist
+mysql> select*from all_girl;
++------------+-----------+--------+------+------------+
+| student_id | full_name | gender | age  | department |
++------------+-----------+--------+------+------------+
+| 22         | ange      | femele |   22 | bit        |
++------------+-----------+--------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> update  student set full_name=uwimana_ange where student_id=22;
+ERROR 1054 (42S22): Unknown column 'uwimana_ange' in 'field list'
+mysql> update  student set full_name=uwimana ange where student_id=22;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ange where student_id=22' at line 1
+mysql> update  student set full_name='uwimana_ange' where student_id=22;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update  student set full_name='muhire_fils' where student_id=23;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update  student set full_name='mugisha_david' where student_id=24;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update  student set full_name='muhoza yves' where student_id=26;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update  student set full_name='murungi_peace' where student_id=25;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from student;
++------------+---------------+--------+------+------------+
+| student_id | full_name     | gender | age  | department |
++------------+---------------+--------+------+------------+
+| 22         | uwimana_ange  | femele |   22 | bit        |
+| 23         | muhire_fils   | male   |   22 | accounting |
+| 24         | mugisha_david | male   |   24 | finance    |
+| 25         | murungi_peace | female |   25 | finance    |
+| 26         | muhoza yves   | male   |   19 | bit        |
++------------+---------------+--------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from all_girl;
++------------+--------------+--------+------+------------+
+| student_id | full_name    | gender | age  | department |
++------------+--------------+--------+------+------------+
+| 22         | uwimana_ange | femele |   22 | bit        |
++------------+--------------+--------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> select*from all_boy;
++------------+---------------+--------+------+------------+
+| student_id | full_name     | gender | age  | department |
++------------+---------------+--------+------+------------+
+| 23         | muhire_fils   | male   |   22 | accounting |
+| 24         | mugisha_david | male   |   24 | finance    |
+| 26         | muhoza yves   | male   |   19 | bit        |
++------------+---------------+--------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from student where age ;< 20
+Query OK, 5 rows affected (0.00 sec)
+mysql> delete from student where age <20;
+Query OK, 0 rows affected (0.00 sec)
+
+
+QUESTION 9
+
+mysql> CREATE TABLE EMPLOYEE (    Employee_Id INT PRIMARY KEY,    First_Name VARCHAR(255),    Last_Name VARCHAR(255),    Email VARCHAR(255),    Phone_Number VARCHAR(20),    Hire_Date DATE,    Job_Id VARCHAR(10),    Salary DECIMAL(10,2),    Commission_Pct DECIMAL(5,2),    Manager_Id INT,    Department_Id INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe employee;
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| Employee_Id    | int           | NO   | PRI | NULL    |       |
+| First_Name     | varchar(255)  | YES  |     | NULL    |       |
+| Last_Name      | varchar(255)  | YES  |     | NULL    |       |
+| Email          | varchar(255)  | YES  |     | NULL    |       |
+| Phone_Number   | varchar(20)   | YES  |     | NULL    |       |
+| Hire_Date      | date          | YES  |     | NULL    |       |
+| Job_Id         | varchar(10)   | YES  |     | NULL    |       |
+| Salary         | decimal(10,2) | YES  |     | NULL    |       |
+| Commission_Pct | decimal(5,2)  | YES  |     | NULL    |       |
+| Manager_Id     | int           | YES  |     | NULL    |       |
+| Department_Id  | int           | YES  |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+11 rows in set (0.03 sec)
+mysql> insert into employee values(123,'ange','uwimana','angeuwimana@gmail.com','0723456567','2025-1-12',12,120000,5000,234,23);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee values(124,'peline','niyera','amahoroanee@gmail.com','0723456587','2025-3-12',23,120567,4800,100,25);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee values(125,'epa','amizero','amizeroepa@gmail.com','0753456587','2025-3-11',21,120578,5500,150,26);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select8 from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select8 from employee' at line 1
+mysql> select* from employee;
++-------------+------------+-----------+-----------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+| Employee_Id | First_Name | Last_Name | Email                 | Phone_Number | Hire_Date  | Job_Id | Salary    | Commission_Pct | Manager_Id | Department_Id |
++-------------+------------+-----------+-----------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+|         123 | ange       | uwimana   | angeuwimana@gmail.com | 0723456567   | 2025-01-12 | 12     | 120000.00 |         999.99 |        234 |            23 |
+|         124 | peline     | niyera    | amahoroanee@gmail.com | 0723456587   | 2025-03-12 | 23     | 120567.00 |         999.99 |        100 |            25 |
+|         125 | epa        | amizero   | amizeroepa@gmail.com  | 0753456587   | 2025-03-11 | 21     | 120578.00 |         999.99 |        150 |            26 |
++-------------+------------+-----------+-----------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee values(126,'austin','niyokwizerwa','niyokwizerwaaugustin@gmail.com','0753456457','2025-4-11',21,120678,9754,154,27);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select*from employee;
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+| Employee_Id | First_Name | Last_Name    | Email                          | Phone_Number | Hire_Date  | Job_Id | Salary    | Commission_Pct | Manager_Id | Department_Id |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+|         123 | ange       | uwimana      | angeuwimana@gmail.com          | 0723456567   | 2025-01-12 | 12     | 120000.00 |         999.99 |        234 |            23 |
+|         124 | peline     | niyera       | amahoroanee@gmail.com          | 0723456587   | 2025-03-12 | 23     | 120567.00 |         999.99 |        100 |            25 |
+|         125 | epa        | amizero      | amizeroepa@gmail.com           | 0753456587   | 2025-03-11 | 21     | 120578.00 |         999.99 |        150 |            26 |
+|         126 | austin     | niyokwizerwa | niyokwizerwaaugustin@gmail.com | 0753456457   | 2025-04-11 | 21     | 120678.00 |         999.99 |        154 |            27 |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+4 rows in set (0.00 sec)
+mysql> SELECT Employee_Id, First_Name, Last_Name FROM EMPLOYEE WHERE Manager_Id = 100;
++-------------+------------+-----------+
+| Employee_Id | First_Name | Last_Name |
++-------------+------------+-----------+
+|         124 | peline     | niyera    |
++-------------+------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT First_Name, Last_Name FROM EMPLOYEE WHERE Salary >= 4800;
++------------+--------------+
+| First_Name | Last_Name    |
++------------+--------------+
+| ange       | uwimana      |
+| peline     | niyera       |
+| epa        | amizero      |
+| austin     | niyokwizerwa |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> update employee  set last_name='austin' where employee_id=125;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employee;
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+| Employee_Id | First_Name | Last_Name    | Email                          | Phone_Number | Hire_Date  | Job_Id | Salary    | Commission_Pct | Manager_Id | Department_Id |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+|         123 | ange       | uwimana      | angeuwimana@gmail.com          | 0723456567   | 2025-01-12 | 12     | 120000.00 |         999.99 |        234 |            23 |
+|         124 | peline     | niyera       | amahoroanee@gmail.com          | 0723456587   | 2025-03-12 | 23     | 120567.00 |         999.99 |        100 |            25 |
+|         125 | epa        | austin       | amizeroepa@gmail.com           | 0753456587   | 2025-03-11 | 21     | 120578.00 |         999.99 |        150 |            26 |
+|         126 | austin     | niyokwizerwa | niyokwizerwaaugustin@gmail.com | 0753456457   | 2025-04-11 | 21     | 120678.00 |         999.99 |        154 |            27 |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+4 rows in set (0.00 sec)
+mysql> SELECT First_Name, Last_Name FROM EMPLOYEE WHERE Last_Name ='AUSTIN';
++------------+-----------+
+| First_Name | Last_Name |
++------------+-----------+
+| epa        | austin    |
++------------+-----------+
+1 row in set (0.00 sec)
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set department_id=70 where employee_id=124;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set department_id=80 where employee_id=126;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from employee;
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+| Employee_Id | First_Name | Last_Name    | Email                          | Phone_Number | Hire_Date  | Job_Id | Salary    | Commission_Pct | Manager_Id | Department_Id |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+|         123 | ange       | uwimana      | angeuwimana@gmail.com          | 0723456567   | 2025-01-12 | 12     | 120000.00 |         999.99 |        234 |            60 |
+|         124 | peline     | niyera       | amahoroanee@gmail.com          | 0723456587   | 2025-03-12 | 23     | 120567.00 |         999.99 |        100 |            70 |
+|         125 | epa        | austin       | amizeroepa@gmail.com           | 0753456587   | 2025-03-11 | 21     | 120578.00 |         999.99 |        150 |            26 |
+|         126 | austin     | niyokwizerwa | niyokwizerwaaugustin@gmail.com | 0753456457   | 2025-04-11 | 21     | 120678.00 |         999.99 |        154 |            80 |
++-------------+------------+--------------+--------------------------------+--------------+------------+--------+-----------+----------------+------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT First_Name, Last_Name FROM EMPLOYEE WHERE Department_Id IN (60, 70, 80);
++------------+--------------+
+| First_Name | Last_Name    |
++------------+--------------+
+| ange       | uwimana      |
+| peline     | niyera       |
+| austin     | niyokwizerwa |
++------------+--------------+
+3 rows in set (0.00 sec)
+
+QUESTION 10
+
+
+mysql> CREATE TABLE Sales (    Sales_No INT PRIMARY KEY,    Salesname VARCHAR(255),    Branch VARCHAR(50),    Salesamount DECIMAL(10,2),    DOB DATE);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO Sales (Sales_No, Salesname, Branch, Salesamount, DOB) VALUES    (1, 'mukiza Doe', 'Branch A', 15000.00, '1990-12-15'),    (2, 'uwase Smith', 'Branch B', 12000.00, '1985-05-20'),    (3, 'uwimana ange', 'Branch A', 18000.00, '1992-08-10'),    (4, 'emmy mahoro', 'Branch C', 10000.00, '1988-12-25'),    (5, 'niyera peline', 'Branch B', 14000.00, '1995-03-12');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT Branch, AVG(Salesamount) AS Avg_SalesFROM SalesGROUP BY Branch;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SalesGROUP BY Branch' at line 1
+mysql> select* from sales;
++----------+---------------+----------+-------------+------------+
+| Sales_No | Salesname     | Branch   | Salesamount | DOB        |
++----------+---------------+----------+-------------+------------+
+|        1 | mukiza Doe    | Branch A |    15000.00 | 1990-12-15 |
+|        2 | uwase Smith   | Branch B |    12000.00 | 1985-05-20 |
+|        3 | uwimana ange  | Branch A |    18000.00 | 1992-08-10 |
+|        4 | emmy mahoro   | Branch C |    10000.00 | 1988-12-25 |
+|        5 | niyera peline | Branch B |    14000.00 | 1995-03-12 |
++----------+---------------+----------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> ^C
+mysql> SELECT Branch, AVG(Salesamount) AS Avg_SalesFROM SalesGROUP BY Branch;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SalesGROUP BY Branch' at line 1
+mysql> SELECT Branch, AVG(Salesamount) AS Avg_Sales FROM Sales GROUP BY Branch;
++----------+--------------+
+| Branch   | Avg_Sales    |
++----------+--------------+
+| Branch A | 16500.000000 |
+| Branch B | 13000.000000 |
+| Branch C | 10000.000000 |
++----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%d-%b-%y') AS DOB FROM Sales WHERE MONTH(DOB) = 12;
++-------------+-----------+
+| Salesname   | DOB       |
++-------------+-----------+
+| mukiza Doe  | 15-Dec-90 |
+| emmy mahoro | 25-Dec-88 |
++-------------+-----------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT Branch, SUM(Salesamount) AS Total_SalesFROM SalesGROUP BY Branch;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SalesGROUP BY Branch' at line 1
+mysql> SELECT Branch, SUM(Salesamount) AS Total_Sales FROM Sales GROUP BY Branch;
++----------+-------------+
+| Branch   | Total_Sales |
++----------+-------------+
+| Branch A |    33000.00 |
+| Branch B |    26000.00 |
+| Branch C |    10000.00 |
++----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%M') AS Month, DOBFROM Sales ORDER BY Month;
+ERROR 1054 (42S22): Unknown column 'Salesname' in 'field list'
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%M') AS Month, DOB FROM Sales ORDER BY Month;
++---------------+----------+------------+
+| Salesname     | Month    | DOB        |
++---------------+----------+------------+
+| uwimana ange  | August   | 1992-08-10 |
+| mukiza Doe    | December | 1990-12-15 |
+| emmy mahoro   | December | 1988-12-25 |
+| niyera peline | March    | 1995-03-12 |
+| uwase Smith   | May      | 1985-05-20 |
++---------------+----------+------------+
+5 rows in set (0.00 sec)
